@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Gather - Home</title>
+	<style>
+		:root {
+			color-scheme: light;
+			--ink: #20302e;
+			--muted: #72807b;
+			--paper: #ffffff;
+			--surface: #ffffff;
+			--line: #dce4de;
+			--forest: #193b35;
+			--mint: #cde9d7;
+			--coral: #e87962;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			min-height: 100vh;
+			display: grid;
+			grid-template-columns: 5rem minmax(0, 1fr);
+			grid-template-rows: auto 1fr;
+			background: var(--paper);
+			color: var(--ink);
+			font-family: "Segoe UI", sans-serif;
+			line-height: 1.5;
+		}
+
+		.primary-nav {
+			position: fixed;
+			inset: 0 auto 0 0;
+			width: 5rem;
+			height: 100vh;
+			padding: 1.25rem 0.5rem;
+			background: var(--surface);
+			color: #111111;
+		}
+
+		.primary-nav > a {
+			display: flex;
+			width: 3rem;
+			height: 3rem;
+			align-items: center;
+			justify-content: center;
+			margin: 0 auto 2rem;
+			color: #111111;
+			font-size: 1.5rem;
+			font-weight: 700;
+			text-decoration: none;
+		}
+
+		.primary-nav ul {
+			display: grid;
+			justify-items: center;
+			gap: 0.75rem;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.primary-nav li a {
+			display: flex;
+			width: 3rem;
+			height: 3rem;
+			align-items: center;
+			justify-content: center;
+			border-radius: 0.5rem;
+			color: #111111;
+			text-decoration: none;
+			transition: background-color 150ms ease, color 150ms ease;
+		}
+
+		.primary-nav li a:hover,
+		.primary-nav li a[aria-current="page"] {
+			background: #eef1ee;
+			color: #111111;
+		}
+
+		.primary-nav svg {
+			width: 1.4rem;
+			height: 1.4rem;
+			fill: none;
+			stroke: currentColor;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			stroke-width: 1.8;
+		}
+
+		.visually-hidden {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			clip-path: inset(50%);
+		}
+
+		.site-header,
+		.main-content {
+			width: min(100%, 54rem);
+			min-width: 0;
+			justify-self: center;
+			padding-right: clamp(1rem, 4vw, 3rem);
+			padding-left: clamp(1rem, 4vw, 3rem);
+		}
+
+		.site-header {
+			grid-column: 2;
+			grid-row: 1;
+			padding-top: 2rem;
+			padding-bottom: 0.75rem;
+		}
+
+		.site-header h1,
+		.main-content h2 {
+			margin-top: 0;
+			font-family: Georgia, serif;
+			font-weight: 600;
+		}
+
+		.site-header h1 {
+			margin-bottom: 0;
+			font-size: 2rem;
+		}
+
+		.main-content {
+			grid-column: 2;
+			grid-row: 2;
+			padding-top: 1rem;
+			padding-bottom: 7rem;
+		}
+
+		.main-content section + section {
+			margin-top: 2.5rem;
+		}
+
+		.main-content h2 {
+			margin-bottom: 1rem;
+			font-size: 1.3rem;
+		}
+
+		#people ul {
+			display: flex;
+			gap: 1.25rem;
+			overflow-x: auto;
+			overscroll-behavior-inline: contain;
+			margin: 0 -0.25rem;
+			padding: 0.25rem 0.25rem 0.75rem;
+			list-style: none;
+			scroll-snap-type: x proximity;
+			scrollbar-width: thin;
+		}
+
+		#people li {
+			flex: 0 0 5rem;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.5rem;
+			color: #44534e;
+			font-size: 0.8rem;
+			text-align: center;
+			scroll-snap-align: start;
+		}
+
+		#people .people-avatar {
+			display: grid;
+			flex: 0 0 3.75rem;
+			width: 3.75rem;
+			height: 3.75rem;
+			place-items: center;
+			border: 3px solid var(--surface);
+			border-radius: 50%;
+			background: var(--mint);
+			box-shadow: 0 0 0 2px #8eb89c;
+			color: var(--forest);
+			font-size: 0.95rem;
+			font-weight: 700;
+		}
+
+		#people li:nth-child(2) .people-avatar {
+			background: #f3d4bf;
+			box-shadow: 0 0 0 2px #d99473;
+		}
+
+		#people li:nth-child(3) .people-avatar {
+			background: #e7e3b5;
+			box-shadow: 0 0 0 2px #b7ad63;
+		}
+
+		#people li:nth-child(4) .people-avatar {
+			background: #d5e0ee;
+			box-shadow: 0 0 0 2px #8ca6c1;
+		}
+
+		#feed article {
+			width: 100%;
+			max-width: 34rem;
+			margin-bottom: 1rem;
+			margin-inline: auto;
+			padding: 1.25rem 1.5rem;
+			border-radius: 0.5rem;
+			background: var(--surface);
+			box-shadow: 0 5px 20px rgb(29 58 48 / 8%);
+		}
+
+		.post-header {
+			position: absolute;
+			z-index: 2;
+			top: 1rem;
+			left: 1rem;
+			max-width: calc(100% - 2rem);
+		}
+
+		.post-author {
+			display: flex;
+			min-width: 0;
+			align-items: center;
+			gap: 0.75rem;
+			padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+			border-radius: 0.5rem;
+			background: rgb(255 255 255 / 92%);
+			box-shadow: 0 2px 10px rgb(25 39 34 / 12%);
+		}
+
+		.post-avatar {
+			display: grid;
+			flex: 0 0 2.75rem;
+			width: 2.75rem;
+			height: 2.75rem;
+			place-items: center;
+			border-radius: 50%;
+			background: var(--mint);
+			color: var(--forest);
+			font-size: 0.85rem;
+			font-weight: 700;
+		}
+
+		#feed article:nth-of-type(2) .post-avatar {
+			background: #f3d4bf;
+			color: #70432f;
+		}
+
+		#feed article:nth-of-type(3) .post-avatar {
+			background: #d5e0ee;
+			color: #344b66;
+		}
+
+		#feed article h3 {
+			margin: 0 0 0.15rem;
+			font-size: 0.95rem;
+			white-space: nowrap;
+		}
+
+		.post-header time {
+			display: block;
+			color: var(--muted);
+			font-size: 0.8rem;
+		}
+
+		.post-copy {
+			margin: 1rem 0 0;
+			color: #3d4a45;
+		}
+
+		.post-media {
+			position: relative;
+			aspect-ratio: 4 / 5;
+			isolation: isolate;
+			overflow: hidden;
+			margin: 1rem 0 0;
+			border-radius: 0.375rem;
+		}
+
+		.post-art {
+			position: absolute;
+			z-index: -1;
+			inset: 0;
+			background:
+				radial-gradient(ellipse at 78% 24%, #f5dfa6 0 7%, transparent 7.5%),
+				linear-gradient(145deg, transparent 0 56%, #698878 56.5%),
+				linear-gradient(25deg, #c7ded0, #eed2b7 65%, #d8e6df);
+		}
+
+		.post-art--garden {
+			background:
+				radial-gradient(ellipse at 24% 30%, #f2dda1 0 7%, transparent 7.5%),
+				linear-gradient(165deg, transparent 0 58%, #6a8e62 58.5%),
+				linear-gradient(30deg, #a7c993, #dce8bb 58%, #e6d5ac);
+		}
+
+		.post-art--trail {
+			background:
+				radial-gradient(ellipse at 70% 28%, #f4d1a0 0 9%, transparent 9.5%),
+				linear-gradient(160deg, transparent 0 57%, #506d5a 57.5%),
+				linear-gradient(15deg, #e9986f, #edc9a1 58%, #a7b5a4);
+		}
+
+		.post-media-label {
+			position: absolute;
+			z-index: 2;
+			bottom: 1rem;
+			left: 1rem;
+			padding: 0.35rem 0.6rem;
+			border-radius: 0.25rem;
+			background: rgb(255 255 255 / 88%);
+			color: var(--ink);
+			font-size: 0.75rem;
+		}
+
+		.post-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			margin-top: 1rem;
+		}
+
+		.post-actions button {
+			display: inline-flex;
+			min-height: 2.5rem;
+			align-items: center;
+			gap: 0.45rem;
+			padding: 0.45rem 0.75rem;
+			border: 0;
+			border-radius: 0.375rem;
+			background: transparent;
+			color: #465750;
+			font: inherit;
+			font-size: 0.85rem;
+			cursor: pointer;
+		}
+
+		.post-actions button:hover {
+			background: #f1f5f1;
+		}
+
+		.post-actions button span[aria-hidden="true"] {
+			font-size: 1.1rem;
+			line-height: 1;
+		}
+
+		.post-actions button[aria-pressed="true"] {
+			background: #fff0ed;
+			color: #b84f40;
+		}
+
+		.post-status {
+			margin: 0.75rem 0 0;
+			color: var(--muted);
+			font-size: 0.85rem;
+		}
+
+		.comment-panel {
+			margin-top: 0.75rem;
+		}
+
+		.comment-form {
+			display: flex;
+			gap: 0.5rem;
+		}
+
+		.comment-form input {
+			flex: 1;
+			min-width: 0;
+			padding: 0.65rem 0.75rem;
+			border: 1px solid var(--line);
+			border-radius: 0.375rem;
+			font: inherit;
+			font-size: 0.9rem;
+		}
+
+		.comment-form button {
+			padding: 0.5rem 0.9rem;
+			border: 0;
+			border-radius: 0.375rem;
+			background: var(--forest);
+			color: #ffffff;
+			font: inherit;
+			font-size: 0.85rem;
+			font-weight: 600;
+			cursor: pointer;
+		}
+
+		.comment-list {
+			display: grid;
+			gap: 0.5rem;
+			margin: 0.75rem 0 0;
+			padding-left: 1.25rem;
+			color: #465750;
+			font-size: 0.9rem;
+		}
+
+		[hidden] {
+			display: none !important;
+		}
+
+		#profile {
+			padding-top: 1rem;
+			color: var(--muted);
+		}
+
+		.messages-launcher {
+			position: fixed;
+			z-index: 1;
+			right: clamp(1rem, 3vw, 2rem);
+			bottom: 1.25rem;
+			min-height: 3rem;
+			padding: 0.75rem 1.25rem;
+			border: 0;
+			border-radius: 999px;
+			background: var(--coral);
+			box-shadow: 0 6px 18px rgb(32 48 46 / 18%);
+			color: #ffffff;
+			font: inherit;
+			font-weight: 700;
+			cursor: pointer;
+		}
+
+		.messages-launcher:hover {
+			background: #cf5f4c;
+		}
+
+		.messages-panel {
+			position: fixed;
+			z-index: 5;
+			right: clamp(1rem, 3vw, 2rem);
+			bottom: 5.5rem;
+			display: grid;
+			grid-template-rows: auto minmax(0, 1fr);
+			width: min(22rem, calc(100vw - 2rem));
+			max-height: min(30rem, calc(100vh - 7rem));
+			overflow: hidden;
+			border-radius: 0.75rem;
+			background: var(--surface);
+			box-shadow: 0 12px 36px rgb(32 48 46 / 20%);
+		}
+
+		.messages-panel-header {
+			display: flex;
+			min-height: 3.75rem;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0.75rem 1rem;
+			background: var(--forest);
+			color: #ffffff;
+		}
+
+		.messages-panel-header h2 {
+			margin: 0;
+			font-family: Georgia, serif;
+			font-size: 1.15rem;
+		}
+
+		.messages-close {
+			display: grid;
+			width: 2.25rem;
+			height: 2.25rem;
+			place-items: center;
+			border: 0;
+			border-radius: 50%;
+			background: transparent;
+			color: #ffffff;
+			font: inherit;
+			font-size: 1.5rem;
+			line-height: 1;
+			cursor: pointer;
+		}
+
+		.messages-close:hover {
+			background: rgb(255 255 255 / 15%);
+		}
+
+		.conversation-list {
+			overflow-y: auto;
+			margin: 0;
+			padding: 0.5rem;
+			list-style: none;
+		}
+
+		.conversation-list li {
+			display: grid;
+			grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+			align-items: center;
+			gap: 0.75rem;
+			padding: 0.65rem 0.5rem;
+			border-radius: 0.5rem;
+		}
+
+		.conversation-list li:hover {
+			background: #f3f6f2;
+		}
+
+		.conversation-avatar {
+			display: grid;
+			width: 2.75rem;
+			height: 2.75rem;
+			place-items: center;
+			border-radius: 50%;
+			background: var(--mint);
+			color: var(--forest);
+			font-size: 0.8rem;
+			font-weight: 700;
+		}
+
+		.conversation-list li:nth-child(2) .conversation-avatar {
+			background: #f3d4bf;
+			color: #70432f;
+		}
+
+		.conversation-list li:nth-child(3) .conversation-avatar {
+			background: #d5e0ee;
+			color: #344b66;
+		}
+
+		.conversation-list li:nth-child(4) .conversation-avatar {
+			background: #e7e3b5;
+			color: #635b25;
+		}
+
+		.conversation-details {
+			min-width: 0;
+		}
+
+		.conversation-details h3,
+		.conversation-details p {
+			overflow: hidden;
+			margin: 0;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.conversation-details h3 {
+			font-size: 0.85rem;
+		}
+
+		.conversation-details p,
+		.conversation-list time {
+			color: var(--muted);
+			font-size: 0.75rem;
+		}
+
+		:focus-visible {
+			outline: 3px solid #f0b94a;
+			outline-offset: 3px;
+		}
+
+		@media (max-width: 700px) {
+			body {
+				display: block;
+			}
+
+			.primary-nav {
+				position: static;
+				width: 100%;
+				height: auto;
+				padding: 0.75rem 1rem;
+			}
+
+			.primary-nav > a {
+				margin: 0 auto 0.5rem;
+			}
+
+			.primary-nav ul {
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: 0.25rem;
+			}
+
+			.primary-nav li a {
+				padding: 0.6rem 0.4rem;
+				font-size: 0.85rem;
+				text-align: center;
+			}
+
+			.site-header,
+			.main-content {
+				width: 100%;
+				padding-right: 1rem;
+				padding-left: 1rem;
+			}
+
+			.site-header {
+				padding-top: 1.5rem;
+			}
+
+			#feed article {
+				padding: 1rem;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			*,
+			*::before,
+			*::after {
+				scroll-behavior: auto !important;
+				transition-duration: 0.01ms !important;
+			}
+		}
+	</style>
+</head>
+<body>
+	<nav class="primary-nav" aria-label="Primary navigation">
+		<a href="#home" title="Gather home">
+			<span aria-hidden="true">✦</span>
+			<span class="visually-hidden">Gather home</span>
+		</a>
+		<ul>
+			<li>
+				<a href="#home" aria-current="page" title="Home">
+					<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>
+					<span class="visually-hidden">Home</span>
+				</a>
+			</li>
+			<li>
+				<a href="#people" title="Following">
+					<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><path d="M3.5 20a5.5 5.5 0 0 1 11 0M16 5.5a3 3 0 0 1 0 5.8M17 14a5 5 0 0 1 3.5 4.8"></path></svg>
+					<span class="visually-hidden">Following</span>
+				</a>
+			</li>
+			<li>
+				<a href="#feed" title="Posts">
+					<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg>
+					<span class="visually-hidden">Posts</span>
+				</a>
+			</li>
+			<li>
+				<a href="#profile" title="Profile">
+					<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0"></path></svg>
+					<span class="visually-hidden">Profile</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<header class="site-header" id="home">
+		<h1>Home</h1>
+		
+	</header>
+
+	<main class="main-content">
+		<section aria-labelledby="people-heading" id="people">
+			<h2 id="people-heading">People you follow</h2>
+			<ul aria-label="Followed people" tabindex="0">
+				<li><span class="people-avatar" role="img" aria-label="Jordan Lee avatar">JL</span> Jordan Lee</li>
+				<li><span class="people-avatar" role="img" aria-label="Sam Rivera avatar">SR</span> Sam Rivera</li>
+				<li><span class="people-avatar" role="img" aria-label="Taylor Kim avatar">TK</span> Taylor Kim</li>
+				<li><span class="people-avatar" role="img" aria-label="Morgan Chen avatar">MC</span> Morgan Chen</li>
+			</ul>
+		</section>
+
+		<section aria-labelledby="feed-heading" id="feed">
+			<h2 id="feed-heading">Recent posts</h2>
+
+			<article>
+				<figure class="post-media">
+					<div class="post-art" role="img" aria-label="Local placeholder image of a bookstore on a sunny day"></div>
+					<header class="post-header">
+						<div class="post-author">
+							<span class="post-avatar" role="img" aria-label="Jordan Lee avatar">JL</span>
+							<div>
+								<h3>Jordan Lee</h3>
+								<time datetime="2026-10-03T09:15">Today at 9:15 AM</time>
+							</div>
+						</div>
+					</header>
+					<span class="post-media-label" aria-hidden="true">Bookshop window · image placeholder</span>
+				</figure>
+				<p class="post-copy">Found a quiet little bookstore on my walk this morning.</p>
+				<footer class="post-actions" aria-label="Post actions">
+					<button type="button" data-action="like" aria-pressed="false"><span class="like-icon" aria-hidden="true">♡</span> Like <span class="like-count">12</span></button>
+					<button type="button" data-action="comment" aria-expanded="false" aria-controls="comments-jordan"><span aria-hidden="true">◌</span> Comment</button>
+					<button type="button" data-action="share"><span aria-hidden="true">↗</span> Share</button>
+				</footer>
+				<p class="post-status" role="status" aria-live="polite" hidden></p>
+				<section class="comment-panel" id="comments-jordan" aria-label="Comments on Jordan Lee's post" hidden>
+					<form class="comment-form">
+						<label class="visually-hidden" for="comment-jordan">Write a comment</label>
+						<input id="comment-jordan" name="comment" type="text" maxlength="280" placeholder="Write a comment..." autocomplete="off" required>
+						<button type="submit">Post</button>
+					</form>
+					<ol class="comment-list" aria-label="Posted comments"></ol>
+				</section>
+			</article>
+
+			<article>
+				<figure class="post-media">
+					<div class="post-art post-art--garden" role="img" aria-label="Local placeholder image of an herb garden"></div>
+					<header class="post-header">
+						<div class="post-author">
+							<span class="post-avatar" role="img" aria-label="Sam Rivera avatar">SR</span>
+							<div>
+								<h3>Sam Rivera</h3>
+								<time datetime="2026-10-03T08:40">Today at 8:40 AM</time>
+							</div>
+						</div>
+					</header>
+					<span class="post-media-label" aria-hidden="true">Herb garden · image placeholder</span>
+				</figure>
+				<p class="post-copy">Weekend project: finally getting the herb garden started.</p>
+				<footer class="post-actions" aria-label="Post actions">
+					<button type="button" data-action="like" aria-pressed="false"><span class="like-icon" aria-hidden="true">♡</span> Like <span class="like-count">8</span></button>
+					<button type="button" data-action="comment" aria-expanded="false" aria-controls="comments-sam"><span aria-hidden="true">◌</span> Comment</button>
+					<button type="button" data-action="share"><span aria-hidden="true">↗</span> Share</button>
+				</footer>
+				<p class="post-status" role="status" aria-live="polite" hidden></p>
+				<section class="comment-panel" id="comments-sam" aria-label="Comments on Sam Rivera's post" hidden>
+					<form class="comment-form">
+						<label class="visually-hidden" for="comment-sam">Write a comment</label>
+						<input id="comment-sam" name="comment" type="text" maxlength="280" placeholder="Write a comment..." autocomplete="off" required>
+						<button type="submit">Post</button>
+					</form>
+					<ol class="comment-list" aria-label="Posted comments"></ol>
+				</section>
+			</article>
+
+			<article>
+				<figure class="post-media">
+					<div class="post-art post-art--trail" role="img" aria-label="Local placeholder image of a trail at sunset"></div>
+					<header class="post-header">
+						<div class="post-author">
+							<span class="post-avatar" role="img" aria-label="Taylor Kim avatar">TK</span>
+							<div>
+								<h3>Taylor Kim</h3>
+								<time datetime="2026-10-02T18:20">Yesterday at 6:20 PM</time>
+							</div>
+						</div>
+					</header>
+					<span class="post-media-label" aria-hidden="true">Trail at sunset · image placeholder</span>
+				</figure>
+				<p class="post-copy">Some photos from the trail before sunset.</p>
+				<footer class="post-actions" aria-label="Post actions">
+					<button type="button" data-action="like" aria-pressed="false"><span class="like-icon" aria-hidden="true">♡</span> Like <span class="like-count">24</span></button>
+					<button type="button" data-action="comment" aria-expanded="false" aria-controls="comments-taylor"><span aria-hidden="true">◌</span> Comment</button>
+					<button type="button" data-action="share"><span aria-hidden="true">↗</span> Share</button>
+				</footer>
+				<p class="post-status" role="status" aria-live="polite" hidden></p>
+				<section class="comment-panel" id="comments-taylor" aria-label="Comments on Taylor Kim's post" hidden>
+					<form class="comment-form">
+						<label class="visually-hidden" for="comment-taylor">Write a comment</label>
+						<input id="comment-taylor" name="comment" type="text" maxlength="280" placeholder="Write a comment..." autocomplete="off" required>
+						<button type="submit">Post</button>
+					</form>
+					<ol class="comment-list" aria-label="Posted comments"></ol>
+				</section>
+			</article>
+		</section>
+
+		<section aria-labelledby="profile-heading" id="profile">
+			<h2 id="profile-heading">Your profile</h2>
+			<p>Alex Morgan</p>
+		</section>
+	</main>
+
+	<button class="messages-launcher" id="messages-launcher" type="button" aria-label="Open messages" aria-expanded="false" aria-controls="messages-panel">
+		Messages
+	</button>
+	<aside class="messages-panel" id="messages-panel" aria-labelledby="messages-heading" hidden>
+		<header class="messages-panel-header">
+			<h2 id="messages-heading">Messages</h2>
+			<button class="messages-close" id="messages-close" type="button" aria-label="Close messages">&times;</button>
+		</header>
+		<ul class="conversation-list" aria-label="Recent conversations">
+			<li>
+				<span class="conversation-avatar" aria-hidden="true">JL</span>
+				<div class="conversation-details"><h3>Jordan Lee</h3><p>Did you find anything good?</p></div>
+				<time datetime="2026-10-04T09:42">9:42</time>
+			</li>
+			<li>
+				<span class="conversation-avatar" aria-hidden="true">SR</span>
+				<div class="conversation-details"><h3>Sam Rivera</h3><p>Those seedlings look great.</p></div>
+				<time datetime="2026-10-04T09:18">9:18</time>
+			</li>
+			<li>
+				<span class="conversation-avatar" aria-hidden="true">TK</span>
+				<div class="conversation-details"><h3>Taylor Kim</h3><p>Want to go hiking this weekend?</p></div>
+				<time datetime="2026-10-04T08:56">8:56</time>
+			</li>
+			<li>
+				<span class="conversation-avatar" aria-hidden="true">MC</span>
+				<div class="conversation-details"><h3>Morgan Chen</h3><p>Thanks for sharing the photos!</p></div>
+				<time datetime="2026-10-03T17:30">Yesterday</time>
+			</li>
+		</ul>
+	</aside>
+	<script>
+		const feed = document.querySelector("#feed");
+		const shareTimers = new WeakMap();
+		const messagesLauncher = document.querySelector("#messages-launcher");
+		const messagesPanel = document.querySelector("#messages-panel");
+		const messagesClose = document.querySelector("#messages-close");
+
+		function setMessagesOpen(isOpen) {
+			messagesPanel.hidden = !isOpen;
+			messagesLauncher.setAttribute("aria-expanded", String(isOpen));
+			messagesLauncher.setAttribute("aria-label", isOpen ? "Close messages" : "Open messages");
+			if (isOpen) {
+				messagesClose.focus();
+			} else {
+				messagesLauncher.focus();
+			}
+		}
+
+		messagesLauncher.addEventListener("click", () => {
+			setMessagesOpen(messagesPanel.hidden);
+		});
+
+		messagesClose.addEventListener("click", () => {
+			setMessagesOpen(false);
+		});
+
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape" && !messagesPanel.hidden) {
+				setMessagesOpen(false);
+			}
+		});
+
+		feed.addEventListener("click", (event) => {
+			const button = event.target.closest("button[data-action]");
+			if (!button) return;
+
+			const article = button.closest("article");
+			if (button.dataset.action === "like") {
+				const isLiked = button.getAttribute("aria-pressed") === "true";
+				const count = button.querySelector(".like-count");
+				const icon = button.querySelector(".like-icon");
+				button.setAttribute("aria-pressed", String(!isLiked));
+				count.textContent = Number(count.textContent) + (isLiked ? -1 : 1);
+				icon.textContent = isLiked ? "♡" : "♥";
+				return;
+			}
+
+			if (button.dataset.action === "comment") {
+				const panel = article.querySelector(".comment-panel");
+				const isExpanded = button.getAttribute("aria-expanded") === "true";
+				button.setAttribute("aria-expanded", String(!isExpanded));
+				panel.hidden = isExpanded;
+				if (!isExpanded) panel.querySelector("input").focus();
+				return;
+			}
+
+			if (button.dataset.action === "share") {
+				const status = article.querySelector(".post-status");
+				status.textContent = "Ready to share this post.";
+				status.hidden = false;
+				clearTimeout(shareTimers.get(status));
+				shareTimers.set(status, setTimeout(() => {
+					status.hidden = true;
+				}, 2500));
+			}
+		});
+
+		feed.addEventListener("submit", (event) => {
+			const form = event.target.closest(".comment-form");
+			if (!form) return;
+
+			event.preventDefault();
+			const input = form.querySelector("input");
+			const comment = input.value.trim();
+			if (!comment) return;
+
+			const item = document.createElement("li");
+			item.textContent = comment;
+			form.nextElementSibling.append(item);
+			form.reset();
+			input.focus();
+		});
+	</script>
+</body>
+</html>
