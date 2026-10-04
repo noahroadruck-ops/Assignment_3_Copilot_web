@@ -1,100 +1,68 @@
-# Desktop Social Media Website
------------------------------------
-Co-pilot  outline
+# Simple Social Media Website
 
+Simple Social Media Website is a small, desktop-first social media prototype built with plain HTML, CSS, and JavaScript. It includes a home feed, a separate profile page, sample posts, and lightweight client-side interactions. All content is local sample data; there is no account system, server, or database.
 
-## Project Goal
+## Features
 
-Build a basic social media home page designed primarily for a computer screen. Use HTML for page structure, CSS for the visual layout, and a small amount of JavaScript for interactions. The first version can use sample content and does not need accounts, a server, or a database.
+- Responsive home page with a fixed icon sidebar and a horizontally scrollable followed-people row.
+- Sample post feed with portrait-style local CSS art, author details, timestamps, and icon controls.
+- Like buttons that toggle state and update their counts.
+- Comment forms that append comments locally without numbering them.
+- A bottom-right Messages panel with sample conversations and open, close, and Escape-key controls.
+- Separate profile page with profile details, statistics, profile actions, icon tabs, and 24 CSS-art gallery placeholders.
 
-## Page Outline
+## Project Files
 
-```text
-+---------------------------------------------------------------+
-| Header: site name / search / profile                          |
-+----------+----------------------------------------------------+
-|          | Stories: circular icons for followed people        |
-| Left     +----------------------------------------------------+
-| icon     | Main feed: post, post, post                         |
-| bar      |                                                    |
-|          |                                      Messages tab  |
-+----------+----------------------------------------------------+
+- `index.html` — Home page, post feed, messages panel, and client-side post interactions.
+- `profile.html` — Profile details and the 24-tile post gallery.
+- `README.md` — Project overview, setup, and usage instructions.
+
+## Requirements
+
+- A modern web browser.
+- No packages, build tools, or external services are required.
+- Python is optional if you prefer to run the site through a local web server.
+
+## Installation and Setup
+
+1. Download or clone the project, then open the project folder in VS Code.
+2. No dependency installation is necessary. The site uses browser-native HTML, CSS, and JavaScript.
+3. Open `index.html` in a web browser to use the site. The sidebar links open the Home and Profile pages.
+
+To serve the folder locally instead, open a terminal in the project directory and run:
+
+```powershell
+py -m http.server 8000
 ```
 
-### 1. Overall Page and Header
-- Create a desktop-first page with a header, a fixed left navigation bar, and a central content area.
-- Give the site a temporary name and a simple profile area.
-- Keep the layout readable at common laptop and desktop widths.
+Then visit `http://localhost:8000` in your browser. Stop the server with `Ctrl+C`.
 
-### 2. Left Navigation Bar
-- Stretch the navigation bar from the top to the bottom of the window.
-- Include icon buttons for Home, Search, Explore, Notifications, and Profile.
-- Make Home visibly selected.
-- Add a text label or tooltip for each icon so its purpose is clear.
+## Usage
 
-### 3. Followed-People Row
-- Place a horizontal row near the top of the central area.
-- Show a circular image or colored placeholder for each followed person, with a name underneath.
-- Give the circles a consistent size and spacing.
-- Use sample names and local placeholder imagery or CSS colors; do not depend on a live social media API.
+### Home
 
-### 4. Main Post Feed
-- Display several sample posts in a vertically scrolling central column.
-- Each post should show an author avatar and name, a timestamp, post text, and an optional image area.
-- Separate posts clearly without making the feed too wide.
-- Use realistic sample content that makes the layout easy to evaluate.
+- Scroll the followed-people row horizontally to browse its sample profiles.
+- Scroll the feed to view sample posts.
+- Select the heart icon to like or unlike a post; its count updates immediately.
+- Select the comment icon to open that post's comment form. Submit a comment to add it to the page.
+- Select Messages at the bottom-right to view sample conversations. Close the panel with its close button.
 
-### 5. Post Actions
-- Add Like, Comment, and Share buttons to each post.
-- Make Like toggle between liked and unliked states, and update a visible like count.
-- Make Comment reveal a small comment input or comment area.
-- Share can show a simple confirmation message; it does not need to publish externally.
+### Profile
 
-### 6. Messages Tab
-- Add a compact Messages button fixed near the bottom-right corner of the window.
-- Clicking it should open and close a small messages panel.
-- The panel can show a few sample conversations and a close button.
-- Ensure it does not cover important post controls when open.
+- Use the Profile icon in the sidebar to open `profile.html`.
+- The page displays sample profile details, follower statistics, icon tabs, and 24 placeholder posts.
+- Edit profile, View archive, and the gallery tabs are visual controls only; they are not connected to account data or alternate galleries.
 
-### 7. Final Checks
-- Check that the left bar stays in place while the feed scrolls.
-- Check that stories remain near the top of the feed area.
-- Try each navigation and post-action button, plus opening and closing Messages.
-- Check the page at a typical desktop width and at a narrower window width; prevent horizontal overflow.
-- Keep the HTML organized with semantic elements and give buttons accessible names.
+## Replacing Placeholder Images
 
-## Prompt-Engineering Sequence
+The sample post and profile gallery artwork is drawn with CSS, so the site works without image downloads. To use your own photos, place image files in an `images` folder beside `index.html`, then replace a placeholder element with an image using a relative path:
 
-Use one prompt at a time, inspect the result, and then move to the next part. Keep each change limited to the requested section.
+```html
+<img class="post-photo" src="images/bookstore.jpg" alt="Bookshop window on a sunny day">
+```
 
-1. **Create the skeleton**
+Provide useful `alt` text for each photo and style the image with `width: 100%`, `height: 100%`, and `object-fit: cover` to preserve the portrait layout.
 
-	> Create a semantic HTML skeleton for a desktop-first social media home page. Include a header, a full-height left navigation area, a central content area with a followed-people row and post feed, and a fixed Messages button in the bottom-right. Use placeholder content only. Do not add interactions yet. Keep the HTML readable and accessible.
+## Scope and Data
 
-2. **Style the layout**
-
-	> Style the existing page with CSS for a desktop social media site. Keep the left navigation full-height, put the followed-people row above the central feed, constrain the feed width, and fix the Messages button near the bottom-right. Use consistent spacing and make the layout avoid horizontal overflow at narrower window widths. Do not change the existing HTML structure unless necessary.
-
-3. **Build the followed-people row**
-
-	> Complete the followed-people row using circular avatars or attractive local placeholders, with a name below each circle. Keep avatar dimensions consistent and make the row horizontally scrollable if it cannot fit. Do not add external services or dependencies.
-
-4. **Build sample posts**
-
-	> Add several sample posts to the central feed. Each post should include an author, avatar, timestamp, text, optional image placeholder, and Like, Comment, and Share controls. Match the page's existing visual style and keep each post easy to scan.
-
-5. **Add post interactions**
-
-	> Add simple JavaScript interactions to the existing post controls: Like toggles its state and count, Comment reveals a comment input or area, and Share shows a brief confirmation. Keep the implementation local to this page; no backend or external service is needed.
-
-6. **Add the messages panel**
-
-	> Make the fixed Messages button open and close a compact messages panel near the bottom-right of the page. Include a few sample conversations and a close control. Ensure the panel stays within the viewport and does not block the page unnecessarily.
-
-7. **Review and test**
-
-	> Review the existing page against this checklist: desktop layout, full-height left navigation, followed-person circles above the feed, readable sample posts, working Like/Comment/Share controls, working Messages open/close behavior, accessible button names, and no horizontal overflow. Make only fixes needed to satisfy the checklist, and summarize what you changed.
-
-## Suggested Build Order
-
-Start with the HTML skeleton, then establish the desktop layout before adding detailed styling. Add sample content next, implement interactions after the structure is stable, and finish by checking the page at multiple window widths.
+Interactions run in the browser only. Likes and comments are not saved after reloading the page, messages are sample conversation previews, and the profile does not connect to a real account or service.
