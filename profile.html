@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Gather - Profile</title>
+	<style>
+		:root {
+			color-scheme: light;
+			--ink: #20302e;
+			--muted: #72807b;
+			--surface: #ffffff;
+			--mint: #cde9d7;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			min-height: 100vh;
+			margin: 0;
+			display: grid;
+			grid-template-columns: 5rem minmax(0, 1fr);
+			grid-template-rows: 1fr;
+			background: #ffffff;
+			color: var(--ink);
+			font-family: "Segoe UI", sans-serif;
+			line-height: 1.5;
+		}
+
+		.primary-nav {
+			position: fixed;
+			inset: 0 auto 0 0;
+			width: 5rem;
+			height: 100vh;
+			padding: 1.25rem 0.5rem;
+			background: var(--surface);
+			color: #111111;
+		}
+
+		.primary-nav > a,
+		.primary-nav li a {
+			display: flex;
+			width: 3rem;
+			height: 3rem;
+			align-items: center;
+			justify-content: center;
+			margin-inline: auto;
+			border-radius: 0.5rem;
+			color: #111111;
+			text-decoration: none;
+		}
+
+		.primary-nav > a {
+			margin-bottom: 2rem;
+			font-size: 1.5rem;
+			font-weight: 700;
+		}
+
+		.primary-nav ul {
+			position: absolute;
+			top: 50%;
+			right: 0.5rem;
+			left: 0.5rem;
+			display: grid;
+			justify-items: center;
+			gap: 0.75rem;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			transform: translateY(-50%);
+		}
+
+		.primary-nav li a:hover,
+		.primary-nav li a[aria-current="page"] {
+			background: #eef1ee;
+		}
+
+		.primary-nav svg {
+			width: 1.4rem;
+			height: 1.4rem;
+			fill: none;
+			stroke: currentColor;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			stroke-width: 1.8;
+		}
+
+		.visually-hidden {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			clip-path: inset(50%);
+		}
+
+		main {
+			width: min(100%, 60rem);
+			min-width: 0;
+			justify-self: start;
+			padding-right: clamp(1rem, 4vw, 3rem);
+			padding-left: clamp(1rem, 4vw, 3rem);
+		}
+
+		main {
+			grid-column: 2;
+			grid-row: 1;
+			padding-top: 1.5rem;
+			padding-bottom: 3rem;
+		}
+
+		.profile-page {
+			width: 100%;
+		}
+
+		.profile-overview {
+			display: grid;
+			grid-template-columns: 6rem minmax(0, 1fr);
+			align-items: start;
+			gap: 1.25rem;
+			max-width: 42rem;
+		}
+
+		.profile-avatar {
+			display: grid;
+			width: 6rem;
+			height: 6rem;
+			place-items: center;
+			border-radius: 50%;
+			background: var(--mint);
+			color: #193b35;
+			font-size: 1.4rem;
+			font-weight: 700;
+		}
+
+		.profile-details h1 {
+			margin: 0;
+			font-family: Georgia, serif;
+			font-size: 1.5rem;
+			font-weight: 600;
+		}
+
+		.profile-handle {
+			margin: 0;
+			color: var(--muted);
+		}
+
+		.profile-bio {
+			max-width: 42rem;
+			margin: 1rem 0 0;
+			color: var(--ink);
+		}
+
+		.profile-stats {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1.25rem;
+			margin: 0.85rem 0 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.profile-stats li {
+			white-space: nowrap;
+		}
+
+		.profile-stats strong {
+			color: var(--ink);
+		}
+
+		.profile-stats span {
+			color: var(--muted);
+		}
+
+		.profile-actions {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.75rem;
+			max-width: 42rem;
+			margin-top: 1.5rem;
+		}
+
+		.profile-actions button {
+			min-height: 3rem;
+			padding: 0.65rem 1rem;
+			border: 0;
+			border-radius: 0.375rem;
+			background: #f1f3f1;
+			color: var(--ink);
+			font: inherit;
+			font-weight: 600;
+			cursor: pointer;
+		}
+
+		.profile-actions button:hover {
+			background: #e8ece8;
+		}
+
+		.profile-tabs {
+			display: flex;
+			justify-content: center;
+			gap: 1rem;
+			max-width: 42rem;
+			margin-top: 1.25rem;
+		}
+
+		.profile-tabs button {
+			display: grid;
+			width: 3rem;
+			height: 3rem;
+			place-items: center;
+			border: 0;
+			border-radius: 50%;
+			background: transparent;
+			color: var(--muted);
+			cursor: pointer;
+		}
+
+		.profile-tabs button[aria-pressed="true"],
+		.profile-tabs button:hover {
+			background: #f1f3f1;
+			color: var(--ink);
+		}
+
+		.profile-tabs svg {
+			width: 1.5rem;
+			height: 1.5rem;
+			fill: none;
+			stroke: currentColor;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			stroke-width: 1.8;
+		}
+
+		.profile-posts {
+			max-width: 42rem;
+			margin: 1rem 0 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.profile-posts li {
+			min-width: 0;
+		}
+
+		.profile-posts-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 0.4rem;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.profile-posts-grid li {
+			min-width: 0;
+		}
+
+		.profile-post-tile {
+			aspect-ratio: 1;
+			margin: 0;
+			background:
+				radial-gradient(ellipse at 75% 22%, #f4d394 0 9%, transparent 9.5%),
+				linear-gradient(145deg, transparent 0 55%, #668873 55.5%),
+				linear-gradient(25deg, #c7ded0, #eed2b7 65%, #d8e6df);
+		}
+
+		.profile-posts-grid li:nth-child(6n + 2) .profile-post-tile {
+			background:
+				radial-gradient(ellipse at 28% 28%, #f1dca2 0 10%, transparent 10.5%),
+				linear-gradient(160deg, transparent 0 52%, #63885c 52.5%),
+				linear-gradient(25deg, #a7c993, #dce8bb 58%, #e6d5ac);
+		}
+
+		.profile-posts-grid li:nth-child(6n + 3) .profile-post-tile {
+			background:
+				radial-gradient(ellipse at 70% 30%, #f4d1a0 0 10%, transparent 10.5%),
+				linear-gradient(155deg, transparent 0 58%, #506d5a 58.5%),
+			linear-gradient(15deg, #e9986f, #edc9a1 58%, #a7b5a4);
+		}
+
+		.profile-posts-grid li:nth-child(6n + 4) .profile-post-tile {
+			background:
+				linear-gradient(170deg, transparent 0 48%, #668fa0 48.5%),
+				linear-gradient(20deg, #b3d9df, #e8d6ba 62%, #d0e3e4);
+		}
+
+		.profile-posts-grid li:nth-child(6n + 5) .profile-post-tile {
+			background:
+				radial-gradient(circle at 35% 40%, #e68e76 0 12%, transparent 12.5%),
+				radial-gradient(circle at 72% 64%, #d6a3ad 0 14%, transparent 14.5%),
+				linear-gradient(35deg, #728b62, #d7dfb2 70%);
+		}
+
+		.profile-posts-grid li:nth-child(6n) .profile-post-tile {
+			background:
+				linear-gradient(90deg, transparent 0 20%, #647f78 20.5% 27%, transparent 27.5% 58%, #d48c67 58.5% 66%, transparent 66.5%),
+				linear-gradient(180deg, #d8e3e1 0 52%, #e8d3b8 52.5%);
+		}
+
+		@media (max-width: 700px) {
+			body {
+				display: block;
+			}
+
+			.primary-nav {
+				position: static;
+				width: 100%;
+				height: auto;
+				padding: 0.75rem 1rem;
+			}
+
+			.primary-nav > a {
+				margin: 0 auto 0.5rem;
+			}
+
+			.primary-nav ul {
+				position: static;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 0.25rem;
+				transform: none;
+			}
+
+			main {
+				width: 100%;
+				padding-right: 1rem;
+				padding-left: 1rem;
+			}
+
+			.profile-overview {
+				grid-template-columns: 5rem minmax(0, 1fr);
+				gap: 0.875rem;
+			}
+
+			.profile-avatar {
+				width: 5rem;
+				height: 5rem;
+			}
+
+			.profile-stats {
+				gap: 0.75rem;
+				font-size: 0.9rem;
+			}
+		}
+
+		:focus-visible {
+			outline: 3px solid #f0b94a;
+			outline-offset: 3px;
+		}
+	</style>
+</head>
+<body>
+	<nav class="primary-nav" aria-label="Primary navigation">
+		<a href="index.html#home" title="Gather home">
+			<span aria-hidden="true">✦</span>
+			<span class="visually-hidden">Gather home</span>
+		</a>
+		<ul>
+			<li>
+				<a href="index.html#home" title="Home">
+					<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>
+					<span class="visually-hidden">Home</span>
+				</a>
+			</li>
+			<li>
+				<a href="index.html#feed" title="Posts">
+					<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg>
+					<span class="visually-hidden">Posts</span>
+				</a>
+			</li>
+			<li>
+				<a href="profile.html" aria-current="page" title="Profile">
+					<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0"></path></svg>
+					<span class="visually-hidden">Profile</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<main>
+		<article class="profile-page" aria-label="Alex Morgan's profile">
+			<section class="profile-overview" aria-label="Profile information">
+				<span class="profile-avatar" role="img" aria-label="Alex Morgan avatar">AM</span>
+				<div class="profile-details">
+					<h1>Alex Morgan</h1>
+					<p class="profile-handle">@alexmorgan</p>
+					<ul class="profile-stats" aria-label="Profile statistics">
+						<li><strong>24</strong> <span>posts</span></li>
+						<li><strong>186</strong> <span>followers</span></li>
+						<li><strong>142</strong> <span>following</span></li>
+					</ul>
+				</div>
+			</section>
+			<p class="profile-bio">Photographer, weekend gardener, and collector of small adventures.</p>
+			<div class="profile-actions" aria-label="Profile actions">
+				<button type="button">Edit profile</button>
+				<button type="button">View archive</button>
+			</div>
+			<nav class="profile-tabs" aria-label="Profile galleries">
+				<button type="button" aria-label="Gallery" title="Gallery" aria-pressed="true">
+					<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1"></rect></svg>
+				</button>
+				<button type="button" aria-label="Saved" title="Saved" aria-pressed="false">
+					<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4.5h12v16l-6-4-6 4z"></path></svg>
+				</button>
+				<button type="button" aria-label="Tagged" title="Tagged" aria-pressed="false">
+					<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 13 13 20a2 2 0 0 1-2.8 0L4 13.8V4h9.8l6.2 6.2a2 2 0 0 1 0 2.8Z"></path><circle cx="8.5" cy="8.5" r="1"></circle></svg>
+				</button>
+			</nav>
+			<section class="profile-posts" aria-label="Profile posts">
+				<ul class="profile-posts-grid">
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 1 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 2 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 3 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 4 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 5 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 6 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 7 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 8 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 9 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 10 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 11 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 12 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 13 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 14 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 15 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 16 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 17 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 18 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 19 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 20 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 21 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 22 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 23 of 24, photo placeholder"></figure></li>
+					<li><figure class="profile-post-tile" role="img" aria-label="Post 24 of 24, photo placeholder"></figure></li>
+				</ul>
+			</section>
+		</article>
+	</main>
+</body>
+</html>

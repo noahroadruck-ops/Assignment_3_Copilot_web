@@ -1,4 +1,7 @@
 # Desktop Social Media Website
+-----------------------------------
+Co-pilot  outline
+
 
 ## Project Goal
 
